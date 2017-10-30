@@ -18,10 +18,13 @@ let
     in
       lib.foldr op nul list;
 
-  rest =
-    builtins.removeAttrs
-      attrs
-      ["mergeInputs" "buildInputs" "nativeBuildInputs" "propagatedBuildInputs"];
+  rest = builtins.removeAttrs attrs [
+    "mergeInputs"
+    "buildInputs"
+    "nativeBuildInputs"
+    "propagatedBuildInputs"
+    "propagatedNativeBuildInputs"
+  ];
 in
 
 stdenv.mkDerivation ({
@@ -31,6 +34,7 @@ stdenv.mkDerivation ({
   buildInputs = mergeInputs' "buildInputs";
   nativeBuildInputs = mergeInputs' "nativeBuildInputs";
   propagatedBuildInputs = mergeInputs' "propagatedBuildInputs";
+  propagatedNativeBuildInputs = mergeInputs' "propagatedNativeBuildInputs";
 
   nobuildPhase = ''
     echo
