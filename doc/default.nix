@@ -49,6 +49,10 @@ pkgs.stdenv.mkDerivation {
       useChapters = true;
     }
   + toDocbook {
+      inputFile = ./shell.md;
+      outputFile = "shell.xml";
+    }
+  + toDocbook {
       inputFile = ./languages-frameworks/python.md;
       outputFile = "./languages-frameworks/python.xml";
     }
