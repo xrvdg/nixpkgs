@@ -3,23 +3,24 @@
 # A special kind of derivation that is only meant to be consumed by the
 # nix-shell.
 {
-  mergeInputs ? [], # a list of derivations whose inputs will be merged
+  inputsFrom ? [], # a list of derivations whose inputs will be made available to the environment
   buildInputs ? [],
   nativeBuildInputs ? [],
   propagatedBuildInputs ? [],
+  propagatedNativeBuildInputs ? [],
   ...
 }@attrs:
 let
-  mergeInputs' = name:
+  mergeInputs = name:
     let
       op = item: sum: sum ++ item."${name}" or [];
       nul = [];
-      list = [attrs] ++ mergeInputs;
+      list = [attrs] ++ inputsFrom;
     in
       lib.foldr op nul list;
 
   rest = builtins.removeAttrs attrs [
-    "mergeInputs"
+    "inputsFrom"
     "buildInputs"
     "nativeBuildInputs"
     "propagatedBuildInputs"
@@ -31,10 +32,10 @@ stdenv.mkDerivation ({
   name = "nix-shell";
   phases = ["nobuildPhase"];
 
-  buildInputs = mergeInputs' "buildInputs";
-  nativeBuildInputs = mergeInputs' "nativeBuildInputs";
-  propagatedBuildInputs = mergeInputs' "propagatedBuildInputs";
-  propagatedNativeBuildInputs = mergeInputs' "propagatedNativeBuildInputs";
+  buildInputs = mergeInputs "buildInputs";
+  nativeBuildInputs = mergeInputs "nativeBuildInputs";
+  propagatedBuildInputs = mergeInputs "propagatedBuildInputs";
+  propagatedNativeBuildInputs = mergeInputs "propagatedNativeBuildInputs";
 
   nobuildPhase = ''
     echo

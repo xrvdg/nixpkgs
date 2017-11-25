@@ -301,7 +301,7 @@ with pkgs;
       inherit kernel rootModules allowMissing;
     };
 
-  mkShell = callPackage ../build-supports/shell-builder.nix { };
+  mkShell = callPackage ../build-supports/mkshell { };
 
   nixBufferBuilders = import ../build-support/emacs/buffer.nix { inherit (pkgs) lib writeText; inherit (emacsPackagesNg) inherit-local; };
 

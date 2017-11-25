@@ -13,8 +13,8 @@ with nix-build.
 ```nix
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
-  # this will merge all the inputs from hello and gnutar into the shell environment
-  mergeInputs = with pkgs; [ hello gnutar ];
+  # this will make all the build inputs from hello and gnutar available to the shell environment
+  inputsFrom = with pkgs; [ hello gnutar ];
   buildInputs = [ pkgs.gnumake ];
 }
 ```
