@@ -27,6 +27,5 @@ build-idris-package {
     homepage = https://github.com/ziman/lightyear;
     license = lib.licenses.bsd2;
     maintainers = [ lib.maintainers.siddharthist ];
-    inherit (idris.meta) platforms;
   };
 }
